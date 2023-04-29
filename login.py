@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, flash
 from flask_login import current_user, login_user
 from .models import User
 from .forms import LoginForm
+from flask_login import login_required
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -16,3 +17,9 @@ def login():
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
+
+
+@app.route('/secret')
+@login_required
+def secret():
+    return "Only authenticated users can see this!"
