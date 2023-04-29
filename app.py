@@ -1,14 +1,16 @@
 from flask import Flask, render_template, request
+from werkzeug.serving import run_simple
 
 app = Flask(__name__)
 
 logs = []
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    log = request.form['log']
-    logs.append(log)
+    if request.method == 'POST':
+        log = request.form['log']
+        logs.append(log)
     return render_template('index.html', logs=logs)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    run_simple('localhost', 5000, app)
