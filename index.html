@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<meta charset="UTF-8">
-<title>Vojcek Smrdí</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="">
-<style>
-</style>
-<script src=""></script>
+<html>
+<head>
+    <title>Log Website</title>
+</head>
 <body>
-
-
-<div class="">
- <h1>Vojtěch</h1>
- <p>JE GAY <3</p>
- 
-</div>
-
+    <h1>Log Website</h1>
+    <form method="post">
+        <input type="text" name="log" placeholder="Enter a log message...">
+        <button type="submit">Submit</button>
+    </form>
+    <hr>
+    <ul>
+        {% for log in logs %}
+        <li>{{ log }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
