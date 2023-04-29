@@ -3,18 +3,47 @@
 <html>
 <head>
     <title>Log Website</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <h1>Log Website</h1>
-    <form method="post">
+    <form onsubmit="submitForm(event)">
         <input type="text" name="log" placeholder="Enter a log message...">
         <button type="submit">Submit</button>
     </form>
     <hr>
-    <ul>
-        {% for log in logs %}
-        <li>{{ log }}</li>
-        {% endfor %}
+    <ul id="log-list">
     </ul>
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+            var logInput = document.getElementsByName('log')[0];
+            var logText = logInput.value;
+            logInput.value = '';
+            axios.post('/', {log: logText})
+                .then(function(response) {
+                    updateLogList(response.data);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+        function updateLogList(logs) {
+            var logList = document.getElementById('log-list');
+            logList.innerHTML = '';
+            for (var i = 0; i < logs.length; i++) {
+                var logItem = document.createElement('li');
+                logItem.textContent = logs[i];
+                logList.appendChild(logItem);
+            }
+        }
+        axios.get('/')
+            .then(function(response) {
+                updateLogList(response.data);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    </script>
 </body>
 </html>
